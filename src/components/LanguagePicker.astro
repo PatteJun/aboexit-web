@@ -12,7 +12,7 @@ const languageNames = {
 };
 ---
 
-<div class="language-switcher">
+<div class="language-switcher" data-current-path={currentPath} data-language-names={JSON.stringify(languageNames)}>
   <button class="switcher-button" aria-haspopup="true" aria-expanded="false">
     <span class="flag">{languageNames[lang].flag}</span>
     <span class="current-lang">{languageNames[lang].name}</span>
@@ -23,7 +23,7 @@ const languageNames = {
   
   <div class="dropdown">
     {Object.entries(languageNames).map(([code, { name, flag }]) => {
-      const path = currentPath.replace(/^\/[a-z]{2}\//, `/${code}/`);
+      const path = currentPath.replace(/^\/[a-z]{2}(\/|$)/, `/${code}$1`);
       return (
         <a 
           href={path}
@@ -47,10 +47,12 @@ const languageNames = {
   document.addEventListener('DOMContentLoaded', () => {
     const switcher = document.querySelector('.language-switcher');
     const button = switcher.querySelector('.switcher-button');
+    const currentPath = switcher.getAttribute('data-current-path');
+    const languageNames = JSON.parse(switcher.getAttribute('data-language-names'));
     
     const toggleDropdown = () => {
       const expanded = button.getAttribute('aria-expanded') === 'true';
-      button.setAttribute('aria-expanded', !expanded);
+      button.setAttribute('aria-expanded', (!expanded).toString());
       switcher.classList.toggle('active');
     };
 
@@ -60,7 +62,7 @@ const languageNames = {
     });
 
     document.addEventListener('click', (e) => {
-      if (!switcher.contains(e.target)) {
+      if (!switcher.contains(e.target as Node)) {
         button.setAttribute('aria-expanded', 'false');
         switcher.classList.remove('active');
       }
