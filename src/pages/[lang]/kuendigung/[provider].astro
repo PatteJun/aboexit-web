@@ -1,0 +1,258 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import CancellationLetter from '../../../components/CancellationLetter.astro';
+import { providers } from '../../../data/providers';
+import { languages, ui } from '../../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).flatMap((lang) => 
+    providers.map((provider) => ({
+      params: { lang, provider: provider.slug },
+      props: { lang, provider },
+    }))
+  );
+}
+
+const { provider, lang } = Astro.props;
+const t = ui[lang];
+---
+
+<Layout 
+  title={provider.metaTitle}
+  description={provider.metaDescription}
+  lang={lang}
+>
+  <div class="container">
+    <article class="content">
+      <nav class="breadcrumb">
+        <a href={`/${lang}`}>{t['nav.home']}</a>
+        <span>/</span>
+        <span>{provider.name}</span>
+      </nav>
+
+      <h1>{t['cancellation.title']} {provider.name}</h1>
+      
+      <div class="info-box">
+        <h2>{t['info.title']}</h2>
+        <ul>
+          <li>{t['info.deadline']}</li>
+          <li>{t['info.written']}</li>
+          <li>{t['info.number']}</li>
+          <li>{t['info.confirmation']}</li>
+        </ul>
+      </div>
+
+      <section class="letter-section">
+        <h2>{t['letter.title']}</h2>
+        <CancellationLetter provider={provider} lang={lang} />
+      </section>
+
+      <section class="instructions">
+        <h2>{t['instructions.title']}</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>{t['instructions.step1.title']}</h3>
+              <p>{t['instructions.step1.description']}</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>{t['instructions.step2.title']}</h3>
+              <p>{t['instructions.step2.description']}</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>{t['instructions.step3.title']}</h3>
+              <p>{t['instructions.step3.description']}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq">
+        <h2>{t['faq.title']}</h2>
+        <div class="questions">
+          <details>
+            <summary>{t['faq.deadline.question']}</summary>
+            <p>{t['faq.deadline.answer']}</p>
+          </details>
+          <details>
+            <summary>{t['faq.reason.question']}</summary>
+            <p>{t['faq.reason.answer']}</p>
+          </details>
+          <details>
+            <summary>{t['faq.confirmation.question']}</summary>
+            <p>{t['faq.confirmation.answer']}</p>
+          </details>
+        </div>
+      </section>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    margin-bottom: 2rem;
+    color: var(--text-light);
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .breadcrumb a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--primary-light);
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+  }
+
+  .info-box {
+    background: #f0fdfa;
+    border: 1px solid #99f6e4;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .info-box h2 {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .info-box ul {
+    list-style-type: none;
+  }
+
+  .info-box li {
+    margin-bottom: 0.75rem;
+    padding-left: 1.75rem;
+    position: relative;
+  }
+
+  .info-box li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+  }
+
+  .letter-section {
+    margin: 3rem 0;
+  }
+
+  .letter-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .instructions {
+    margin: 4rem 0;
+  }
+
+  .instructions h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .step {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .step-number {
+    background: var(--primary-color);
+    color: var(--white);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .step-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .faq {
+    margin: 4rem 0;
+  }
+
+  .faq h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .questions details {
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .questions summary {
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .questions summary::after {
+    content: "+";
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+
+  .questions details[open] summary::after {
+    content: "−";
+  }
+
+  .questions p {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .info-box {
+      padding: 1.5rem;
+    }
+  }
+</style>

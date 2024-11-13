@@ -1,0 +1,140 @@
+---
+interface Props {
+  provider: {
+    name: string;
+    address: string;
+  };
+}
+
+const { provider } = Astro.props;
+const today = new Date().toLocaleDateString('de-DE');
+---
+
+<div class="letter-container">
+  <div class="letter">
+    <div class="letter-header">
+      <div class="sender">
+        <div class="placeholder">[Ihr Name]</div>
+        <div class="placeholder">[Ihre Straße]</div>
+        <div class="placeholder">[PLZ Ort]</div>
+      </div>
+
+      <div class="recipient">
+        {provider.address.split('\n').map((line) => (
+          <div>{line}</div>
+        ))}
+      </div>
+    </div>
+
+    <div class="date">
+      {today}
+    </div>
+
+    <div class="subject">
+      <strong>Kündigung meines Vertrags</strong>
+    </div>
+
+    <div class="content">
+      <p>Sehr geehrte Damen und Herren,</p>
+
+      <p>hiermit kündige ich meinen Vertrag bei {provider.name} fristgerecht zum nächstmöglichen Termin.</p>
+
+      <p>Bitte bestätigen Sie mir den Erhalt sowie das Kündigungsdatum schriftlich.</p>
+
+      <p>Mit freundlichen Grüßen</p>
+      <div class="placeholder signature">[Ihre Unterschrift]</div>
+    </div>
+
+    <div class="attachments">
+      <p><strong>Anlagen:</strong></p>
+      <ul>
+        <li>Kopie des Personalausweises (optional)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+  .letter-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 3rem;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .letter {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+  }
+
+  .letter-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .sender, .recipient {
+    font-style: normal;
+  }
+
+  .placeholder {
+    color: var(--text-light);
+    background: var(--background-color);
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+    border: 1px dashed var(--border-color);
+  }
+
+  .signature {
+    margin-top: 2rem;
+    width: 200px;
+  }
+
+  .date {
+    text-align: right;
+    margin-bottom: 2rem;
+    color: var(--text-light);
+  }
+
+  .subject {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+  }
+
+  .content {
+    margin-bottom: 2rem;
+  }
+
+  .content p {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+
+  .attachments {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+    color: var(--text-light);
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  li::before {
+    content: "•";
+    color: var(--primary-color);
+    font-weight: bold;
+    display: inline-block;
+    width: 1rem;
+    margin-left: -1rem;
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+interface Props {
+  provider: {
+    name: string;
+    slug: string;
+    description: string;
+  };
+}
+
+const { provider } = Astro.props;
+---
+
+<a href={`/kuendigung/${provider.slug}`} class="provider-card">
+  <div class="card-content">
+    <h2>{provider.name}</h2>
+    <p>{provider.description}</p>
+    <span class="cta">
+      Kündigungsvorlage ansehen
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </span>
+  </div>
+</a>
+
+<style>
+  .provider-card {
+    display: block;
+    background: var(--white);
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+  }
+
+  .provider-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card-content {
+    padding: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .cta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 1.125rem;
+  }
+
+  .provider-card:hover .cta {
+    color: var(--primary-light);
+  }
+
+  svg {
+    transition: transform 0.2s ease;
+  }
+
+  .provider-card:hover svg {
+    transform: translateX(4px);
+  }
+</style>
