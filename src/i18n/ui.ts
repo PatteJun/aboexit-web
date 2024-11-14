@@ -8,6 +8,22 @@ export const languages = {
 export const defaultLang = 'de';
 
 export const ui = {
+  en: {
+    'site.name': 'AboExit',
+    'site.description': 'Cancel contracts simply and legally',
+    'nav.home': 'Home',
+    'hero.title': 'Contract Cancellation Made Easy',
+    'hero.subtitle': 'Professional cancellation templates for Switzerland',
+    'providers.title': 'Popular Providers',
+    'how.title': 'How it works',
+    'step.1.title': 'Choose Provider',
+    'step.1.description': 'Select your provider from the list',
+    'step.2.title': 'Customize Template',
+    'step.2.description': 'Personalize the cancellation template',
+    'step.3.title': 'Send Cancellation',
+    'step.3.description': 'Via mail or email',
+    'cta.view': 'View cancellation template',
+  },
   de: {
     'site.name': 'AboExit',
     'site.description': 'Verträge einfach & rechtssicher kündigen',
@@ -55,21 +71,5 @@ export const ui = {
     'step.3.title': 'Invia la disdetta',
     'step.3.description': 'Via posta o email',
     'cta.view': 'Vedi il modello di disdetta',
-  },
-  en: {
-    'site.name': 'AboExit',
-    'site.description': 'Cancel contracts simply and legally',
-    'nav.home': 'Home',
-    'hero.title': 'Contract Cancellation Made Easy',
-    'hero.subtitle': 'Professional cancellation templates for Switzerland',
-    'providers.title': 'Popular Providers',
-    'how.title': 'How it works',
-    'step.1.title': 'Choose Provider',
-    'step.1.description': 'Select your provider from the list',
-    'step.2.title': 'Customize Template',
-    'step.2.description': 'Personalize the cancellation template',
-    'step.3.title': 'Send Cancellation',
-    'step.3.description': 'Via mail or email',
-    'cta.view': 'View cancellation template',
   },
 } as const;

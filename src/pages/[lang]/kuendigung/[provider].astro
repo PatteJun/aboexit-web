@@ -14,7 +14,7 @@ export function getStaticPaths() {
 }
 
 const { provider, lang } = Astro.props;
-const t = ui[lang];
+const t = ui[lang] || ui['en'];
 ---
 
 <Layout 

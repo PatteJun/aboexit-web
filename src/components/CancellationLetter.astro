@@ -1,12 +1,12 @@
 ---
-interface Props {
-  provider: {
-    name: string;
-    address: string;
-  };
+import type { Provider } from '../data/providers';
+
+export interface Props {
+  provider: Provider;
+  lang: string;
 }
 
-const { provider } = Astro.props;
+const { provider, lang } = Astro.props;
 const today = new Date().toLocaleDateString('de-DE');
 ---
 

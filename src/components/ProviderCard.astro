@@ -1,13 +1,12 @@
 ---
-interface Props {
-  provider: {
-    name: string;
-    slug: string;
-    description: string;
-  };
+import type { Provider } from '../data/providers';
+
+export interface Props {
+  provider: Provider;
+  lang: string;
 }
 
-const { provider } = Astro.props;
+const { provider, lang } = Astro.props;
 ---
 
 <a href={`/kuendigung/${provider.slug}`} class="provider-card">
