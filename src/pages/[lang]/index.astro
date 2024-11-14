@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ProviderCard from '../../components/ProviderCard.astro';
+import CategoryCard from '../../components/CategoryCard.astro';
 import { providers } from '../../data/providers';
 import { ui, languages } from '../../i18n/ui';
 
@@ -29,9 +29,7 @@ const t = ui[lang];
     <section class="providers">
       <h2>{t['providers.title']}</h2>
       <div class="provider-grid">
-        {providers.map((provider) => (
-          <ProviderCard provider={provider} lang={lang} />
-        ))}
+        <CategoryCard providers={providers} lang={lang} />
       </div>
     </section>
 
