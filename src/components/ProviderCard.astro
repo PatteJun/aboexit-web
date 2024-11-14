@@ -9,7 +9,7 @@ export interface Props {
 const { provider, lang } = Astro.props;
 ---
 
-<a href={`/kuendigung/${provider.slug}`} class="provider-card">
+<a href={`/${lang}/kuendigung/${provider.slug}`} class="provider-card">
   <div class="card-content">
     <h2>{provider.name}</h2>
     <p>{provider.description}</p>
