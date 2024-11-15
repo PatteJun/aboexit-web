@@ -1,16 +1,20 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import CancellationLetter from '../../../components/CancellationLetter.astro';
-import { providers } from '../../../data/providers';
+import { getProviderBySlug, getAllProviders } from '../../../lib/api';
 import { languages, ui } from '../../../i18n/ui';
 
-export function getStaticPaths() {
-  return Object.keys(languages).flatMap((lang) => 
-    providers.map((provider) => ({
-      params: { lang, provider: provider.slug },
-      props: { lang, provider },
-    }))
+export async function getStaticPaths() {
+  const paths = await Promise.all(
+    Object.keys(languages).map(async (lang) => {
+      const providers = await getAllProviders(lang);
+      return providers.map((provider) => ({
+        params: { lang, provider: provider.slug },
+        props: { lang, provider },
+      }));
+    })
   );
+  return paths.flat();
 }
 
 const { provider, lang } = Astro.props;
@@ -18,8 +22,8 @@ const t = ui[lang] || ui['en'];
 ---
 
 <Layout 
-  title={provider.metaTitle}
-  description={provider.metaDescription}
+  title={provider.metaTitle[lang]}
+  description={provider.metaDescription[lang]}
   lang={lang}
 >
   <div class="container">

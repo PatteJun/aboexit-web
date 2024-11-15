@@ -1,18 +1,39 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import CategoryCard from '../../components/CategoryCard.astro';
-import { providers } from '../../data/providers';
+import { getAllProviders } from '../../lib/api';
 import { ui, languages } from '../../i18n/ui';
 
-export function getStaticPaths() {
-  return Object.keys(languages).map((lang) => ({
-    params: { lang },
-    props: { lang }
-  }));
+export async function getStaticPaths() {
+  console.log('[Page] Generating static paths for languages:', Object.keys(languages));
+  
+  const paths = await Promise.all(
+    Object.keys(languages).map(async (lang) => {
+      try {
+        console.log(`[Page] Fetching providers for language: ${lang}`);
+        const providers = await getAllProviders(lang);
+        console.log(`[Page] Found ${providers.length} providers for ${lang}`);
+        return {
+          params: { lang },
+          props: { lang, providers }
+        };
+      } catch (error) {
+        console.error(`[Page] Error generating path for language ${lang}:`, error);
+        return {
+          params: { lang },
+          props: { lang, providers: [] }
+        };
+      }
+    })
+  );
+  
+  return paths;
 }
 
-const { lang } = Astro.props;
+const { lang, providers = [] } = Astro.props;
 const t = ui[lang];
+
+console.log(`[Page] Rendering page for language: ${lang} with ${providers.length} providers`);
 ---
 
 <Layout 
