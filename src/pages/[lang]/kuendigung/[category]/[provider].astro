@@ -26,12 +26,12 @@ const t = ui[lang] || ui['en'];
 ---
 
 <Layout 
-  title={provider.metaTitle[lang]}
-  description={provider.metaDescription[lang]}
+  title={provider.metaTitle}
+  description={provider.metaDescription}
   lang={lang}
 >
-  <div class="container">
-    <article class="content">
+  <div class="hero-wrapper">
+    <div class="container">
       <nav class="breadcrumb">
         <a href={`/${lang}`}>{t['nav.home']}</a>
         <span>/</span>
@@ -40,64 +40,115 @@ const t = ui[lang] || ui['en'];
         <span>{provider.name}</span>
       </nav>
 
-      <h1>{t['cancellation.title']} {provider.name}</h1>
-      
-      <div class="info-box">
-        <h2>{t['info.title']}</h2>
-        <ul>
-          <li>{t['info.deadline']}</li>
-          <li>{t['info.written']}</li>
-          <li>{t['info.number']}</li>
-          <li>{t['info.confirmation']}</li>
-        </ul>
-      </div>
+      <div class="hero">
+        <div class="hero-content">
+          <h1>Sicher und schnell<br />{provider.name} kündigen</h1>
+          <p class="subtitle">In nur 2 Minuten deinen Vertrag kündigen.</p>
+          
+          <div class="benefits">
+            <div class="benefit">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <span>100% Kostenlos</span>
+            </div>
+            <div class="benefit">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <span>In 2 Minuten erledigt</span>
+            </div>
+            <div class="benefit">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+              </svg>
+              <span>Rechtssichere Vorlage</span>
+            </div>
+          </div>
 
+          <button class="cta-button">
+            Jetzt kostenlos kündigen
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="arrow">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="letter-preview">
+          <div class="letter-content">
+            <div class="letter-header">
+              <div class="sender">
+                Max Mustermann<br />
+                Musterstraße 123<br />
+                12345 Musterstadt
+              </div>
+              <div class="recipient">
+                {provider.address.split('\n').map((line) => (
+                  <div>{line}</div>
+                ))}
+              </div>
+            </div>
+            <div class="letter-body">
+              <div class="date">{new Date().toLocaleDateString('de-DE')}</div>
+              <div class="subject">Kündigung meines Vertrags</div>
+              <p>Sehr geehrte Damen und Herren,</p>
+              <p>hiermit kündige ich meinen Vertrag bei {provider.name} fristgerecht zum nächstmöglichen Termin...</p>
+            </div>
+          </div>
+          <div class="letter-overlay"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <article class="content">
       <section class="letter-section">
-        <h2>{t['letter.title']}</h2>
+        <h2>Deine kostenlose Kündigungsvorlage</h2>
         <CancellationLetter provider={provider} lang={lang} />
       </section>
 
       <section class="instructions">
-        <h2>{t['instructions.title']}</h2>
+        <h2>So funktioniert's</h2>
         <div class="steps">
           <div class="step">
             <div class="step-number">1</div>
             <div class="step-content">
-              <h3>{t['instructions.step1.title']}</h3>
-              <p>{t['instructions.step1.description']}</p>
+              <h3>Vorlage herunterladen</h3>
+              <p>Lade dir die fertige Kündigungsvorlage als PDF herunter.</p>
             </div>
           </div>
           <div class="step">
             <div class="step-number">2</div>
             <div class="step-content">
-              <h3>{t['instructions.step2.title']}</h3>
-              <p>{t['instructions.step2.description']}</p>
+              <h3>Daten ergänzen</h3>
+              <p>Füge deine persönlichen Daten in die markierten Felder ein.</p>
             </div>
           </div>
           <div class="step">
             <div class="step-number">3</div>
             <div class="step-content">
-              <h3>{t['instructions.step3.title']}</h3>
-              <p>{t['instructions.step3.description']}</p>
+              <h3>Kündigung versenden</h3>
+              <p>Sende die Kündigung per Post oder E-Mail an den Anbieter.</p>
             </div>
           </div>
         </div>
       </section>
 
       <section class="faq">
-        <h2>{t['faq.title']}</h2>
+        <h2>Häufige Fragen</h2>
         <div class="questions">
           <details>
-            <summary>{t['faq.deadline.question']}</summary>
-            <p>{t['faq.deadline.answer']}</p>
+            <summary>Wie lange ist die Kündigungsfrist?</summary>
+            <p>Die Kündigungsfrist hängt von deinem individuellen Vertrag ab. In der Regel beträgt sie zwischen 1 und 3 Monaten zum Vertragsende.</p>
           </details>
           <details>
-            <summary>{t['faq.reason.question']}</summary>
-            <p>{t['faq.reason.answer']}</p>
+            <summary>Muss ich einen Grund angeben?</summary>
+            <p>Nein, für eine ordentliche Kündigung zum Vertragsende musst du keinen Grund angeben.</p>
           </details>
           <details>
-            <summary>{t['faq.confirmation.question']}</summary>
-            <p>{t['faq.confirmation.answer']}</p>
+            <summary>Erhalte ich eine Bestätigung?</summary>
+            <p>Ja, der Anbieter muss dir den Erhalt und das Ende deines Vertrags schriftlich bestätigen.</p>
           </details>
         </div>
       </section>
@@ -106,9 +157,16 @@ const t = ui[lang] || ui['en'];
 </Layout>
 
 <style>
-  .content {
-    max-width: 800px;
+  .hero-wrapper {
+    background: linear-gradient(to bottom, #f0f9ff, #e0f2fe);
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+  }
+
+  .container {
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 1.5rem;
   }
 
   .breadcrumb {
@@ -124,47 +182,125 @@ const t = ui[lang] || ui['en'];
     text-decoration: none;
   }
 
-  .breadcrumb a:hover {
-    color: var(--primary-light);
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-content {
+    max-width: 600px;
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 700;
     color: var(--text-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+    color: var(--text-light);
     margin-bottom: 2rem;
   }
 
-  .info-box {
-    background: #f0fdfa;
-    border: 1px solid #99f6e4;
-    border-radius: 1rem;
-    padding: 2rem;
-    margin-bottom: 3rem;
+  .benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
   }
 
-  .info-box h2 {
+  .benefit {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-color);
+    font-weight: 500;
+  }
+
+  .icon {
+    width: 1.5rem;
+    height: 1.5rem;
     color: var(--primary-color);
-    font-size: 1.25rem;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .cta-button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+  }
+
+  .arrow {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .letter-preview {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    transform: rotate(2deg);
+  }
+
+  .letter-content {
+    font-family: 'Times New Roman', serif;
+    color: var(--text-color);
+    font-size: 0.875rem;
+  }
+
+  .letter-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .letter-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .date {
+    text-align: right;
+    color: var(--text-light);
+  }
+
+  .subject {
+    font-weight: bold;
     margin-bottom: 1rem;
   }
 
-  .info-box ul {
-    list-style-type: none;
-  }
-
-  .info-box li {
-    margin-bottom: 0.75rem;
-    padding-left: 1.75rem;
-    position: relative;
-  }
-
-  .info-box li::before {
-    content: "✓";
+  .letter-overlay {
     position: absolute;
+    bottom: 0;
     left: 0;
-    color: var(--primary-color);
-    font-weight: bold;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, white);
+  }
+
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   .letter-section {
@@ -234,20 +370,6 @@ const t = ui[lang] || ui['en'];
     font-weight: 500;
     cursor: pointer;
     list-style: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .questions summary::after {
-    content: "+";
-    color: var(--primary-color);
-    font-weight: bold;
-    font-size: 1.25rem;
-  }
-
-  .questions details[open] summary::after {
-    content: "−";
   }
 
   .questions p {
@@ -257,12 +379,25 @@ const t = ui[lang] || ui['en'];
   }
 
   @media (max-width: 768px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .hero-content {
+      text-align: center;
+    }
+
+    .benefits {
+      align-items: center;
+    }
+
     h1 {
       font-size: 2rem;
     }
 
-    .info-box {
-      padding: 1.5rem;
+    .letter-preview {
+      transform: none;
     }
   }
 </style>
