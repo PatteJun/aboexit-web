@@ -1,15 +1,19 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import CancellationLetter from '../../../components/CancellationLetter.astro';
-import { getProviderBySlug, getAllProviders } from '../../../lib/api';
-import { languages, ui } from '../../../i18n/ui';
+import Layout from '../../../../layouts/Layout.astro';
+import CancellationLetter from '../../../../components/CancellationLetter.astro';
+import { getProviderBySlug, getAllProviders } from '../../../../lib/api';
+import { languages, ui } from '../../../../i18n/ui';
 
 export async function getStaticPaths() {
   const paths = await Promise.all(
     Object.keys(languages).map(async (lang) => {
       const providers = await getAllProviders(lang);
       return providers.map((provider) => ({
-        params: { lang, provider: provider.slug },
+        params: { 
+          lang, 
+          category: provider.category.slug,
+          provider: provider.slug 
+        },
         props: { lang, provider },
       }));
     })
@@ -30,6 +34,8 @@ const t = ui[lang] || ui['en'];
     <article class="content">
       <nav class="breadcrumb">
         <a href={`/${lang}`}>{t['nav.home']}</a>
+        <span>/</span>
+        <span>{provider.category.name}</span>
         <span>/</span>
         <span>{provider.name}</span>
       </nav>
