@@ -48,6 +48,10 @@ const t = ui[lang];
     <footer>
       <div class="container">
         <p>&copy; {new Date().getFullYear()} AboExit.ch - All rights reserved</p>
+        <div class="legal-links">
+          <a href={`/${lang}/legal/privacy`} class="legal-link">Privacy Policy</a>
+          <a href={`/${lang}/legal/imprint`} class="legal-link">Imprint</a>
+        </div>
       </div>
     </footer>
   </body>
@@ -189,5 +193,23 @@ const t = ui[lang];
       flex-direction: column;
       gap: 1rem;
     }
+  }
+
+  .legal-links {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .legal-link {
+    color: var(--text-light);
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .legal-link:hover {
+    color: var(--primary-color);
   }
 </style>

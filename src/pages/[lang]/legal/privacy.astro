@@ -1,0 +1,31 @@
+---
+// src/pages/[lang]/legal/privacy.astro
+import Layout from '../../../layouts/Layout.astro';
+import { privacyContent } from '../../../i18n/privacy';
+
+export async function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'de' } },
+    { params: { lang: 'fr' } },
+    { params: { lang: 'it' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const { title, content } = privacyContent[lang];
+---
+
+<Layout title={title} description={`${title} of the website`} lang={lang}>
+  <div class="page-container">
+    <h1>{title}</h1>
+    <p>{content}</p>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+</style>
