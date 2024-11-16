@@ -8,6 +8,7 @@ const categorySchema = z.object({
   id: z.string(),
   name: z.record(z.string()),
   slug: z.string(),
+  icon: z.string(),
 });
 
 const providerSchema = z.object({
@@ -22,6 +23,7 @@ const providerSchema = z.object({
     id: z.string(),
     name: z.string(),
     slug: z.string().optional(),
+    icon: z.string().optional(),
   }),
 });
 
