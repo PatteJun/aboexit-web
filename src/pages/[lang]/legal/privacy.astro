@@ -19,7 +19,7 @@ const { title, content } = privacyContent[lang];
 <Layout title={title} description={`${title} of the website`} lang={lang}>
   <div class="page-container">
     <h1>{title}</h1>
-    <p>{content}</p>
+    <p set:html={content}></p>
   </div>
 </Layout>
 
