@@ -42,5 +42,42 @@ interface ImprintContent {
         Datenschutz: Informationen zum Umgang mit Ihren personenbezogenen Daten finden Sie in unserer Datenschutzerklärung.
       `,
     },
-    // Add other languages as needed
+    fr: {
+      title: 'Impressum',
+      content: `
+        Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br><br>
+        
+        Christoph Paterok<br>
+        Sudermanplatz 2<br>
+        50670 Köln<br>
+        Deutschland<br><br>
+        
+        Telefon: +49 (0) 151 288 72425<br><br>
+        
+        Haftungsausschluss: Die Inhalte dieser Website werden mit größtmöglicher Sorgfalt erstellt. Der Anbieter übernimmt jedoch keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der bereitgestellten Inhalte. Die Nutzung der Inhalte der Website erfolgt auf eigene Gefahr des Nutzers. Namentlich gekennzeichnete Beiträge geben die Meinung des jeweiligen Autors und nicht immer die Meinung des Anbieters wieder.<br><br>
+        
+        Externe Links: Diese Website enthält Verknüpfungen zu Websites Dritter ("externe Links"). Diese Websites unterliegen der Haftung der jeweiligen Betreiber. Der Anbieter hat bei der erstmaligen Verknüpfung der externen Links die fremden Inhalte daraufhin überprüft, ob etwaige Rechtsverstöße bestehen. Zu dem Zeitpunkt waren keine Rechtsverstöße ersichtlich. Der Anbieter hat keinerlei Einfluss auf die aktuelle und zukünftige Gestaltung und auf die Inhalte der verknüpften Seiten. Das Setzen von externen Links bedeutet nicht, dass sich der Anbieter die hinter dem Verweis oder Link liegenden Inhalte zu Eigen macht. Eine ständige Kontrolle dieser externen Links ist für den Anbieter ohne konkrete Hinweise auf Rechtsverstöße nicht zumutbar. Bei Kenntnis von Rechtsverstößen werden jedoch derartige externe Links unverzüglich gelöscht.<br><br>
+        
+        Datenschutz: Informationen zum Umgang mit Ihren personenbezogenen Daten finden Sie in unserer Datenschutzerklärung.
+      `,
+    },
+    it: {
+      title: 'Impressum',
+      content: `
+        Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br><br>
+        
+        Christoph Paterok<br>
+        Sudermanplatz 2<br>
+        50670 Köln<br>
+        Deutschland<br><br>
+        
+        Telefon: +49 (0) 151 288 72425<br><br>
+        
+        Haftungsausschluss: Die Inhalte dieser Website werden mit größtmöglicher Sorgfalt erstellt. Der Anbieter übernimmt jedoch keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der bereitgestellten Inhalte. Die Nutzung der Inhalte der Website erfolgt auf eigene Gefahr des Nutzers. Namentlich gekennzeichnete Beiträge geben die Meinung des jeweiligen Autors und nicht immer die Meinung des Anbieters wieder.<br><br>
+        
+        Externe Links: Diese Website enthält Verknüpfungen zu Websites Dritter ("externe Links"). Diese Websites unterliegen der Haftung der jeweiligen Betreiber. Der Anbieter hat bei der erstmaligen Verknüpfung der externen Links die fremden Inhalte daraufhin überprüft, ob etwaige Rechtsverstöße bestehen. Zu dem Zeitpunkt waren keine Rechtsverstöße ersichtlich. Der Anbieter hat keinerlei Einfluss auf die aktuelle und zukünftige Gestaltung und auf die Inhalte der verknüpften Seiten. Das Setzen von externen Links bedeutet nicht, dass sich der Anbieter die hinter dem Verweis oder Link liegenden Inhalte zu Eigen macht. Eine ständige Kontrolle dieser externen Links ist für den Anbieter ohne konkrete Hinweise auf Rechtsverstöße nicht zumutbar. Bei Kenntnis von Rechtsverstößen werden jedoch derartige externe Links unverzüglich gelöscht.<br><br>
+        
+        Datenschutz: Informationen zum Umgang mit Ihren personenbezogenen Daten finden Sie in unserer Datenschutzerklärung.
+      `,
+    }
   };

@@ -60,5 +60,60 @@ interface PrivacyContent {
         <p>Diese Datenschutzerklärung kann von Zeit zu Zeit aktualisiert werden. Wir empfehlen Ihnen, sie regelmäßig zu überprüfen.</p>
       `,
     },
-    // Add other languages as needed
+    fr: {
+      title: 'Datenschutz',
+      content: `
+        <p><br><br>Wir legen großen Wert auf den Schutz Ihrer Daten. Diese Datenschutzerklärung erklärt, wie wir Ihre persönlichen Daten behandeln, wenn Sie unsere Website besuchen.<br><br></p>
+        
+        <h3>Datenerhebung</h3>
+        <p>Wir erheben keine persönlichen Daten von unseren Nutzern. Unsere Website verwendet keine Cookies oder andere Tracking-Technologien, die persönliche Informationen sammeln.<br><br></p>
+        
+        <h3>Plausible Analytics</h3>
+        <p>Wir verwenden Plausible Analytics, um Einblicke in den Website-Verkehr zu erhalten. Plausible ist ein datenschutzfreundliches Analysetool, das keine Cookies verwendet und keine persönlichen Daten sammelt. Alle Daten werden aggregiert und anonymisiert, sodass einzelne Nutzer nicht identifiziert werden können.<br><br></p>
+        
+        <h3>Datenweitergabe</h3>
+        <p>Wir geben keine persönlichen Daten an Dritte weiter, da wir keine persönlichen Daten erheben.<br><br></p>
+        
+        <h3>Ihre Rechte</h3>
+        <p>Da wir keine persönlichen Daten erheben, gibt es keine persönlichen Datenrechte auszuüben. Wenn Sie jedoch Fragen oder Bedenken zu unseren Datenschutzpraktiken haben, können Sie uns gerne kontaktieren.<br><br></p>
+        
+        <h3>Kontaktinformationen</h3>
+        <p>Wenn Sie Fragen zu dieser Datenschutzerklärung haben, können Sie uns kontaktieren unter:<br><br></p>
+        <p>Christoph Paterok<br>
+        Sudermanplatz 2<br>
+        50670 Köln<br>
+        Deutschland<br>
+        Telefon: +49 (0) 151 288 72425<br><br></p>
+        
+        <p>Diese Datenschutzerklärung kann von Zeit zu Zeit aktualisiert werden. Wir empfehlen Ihnen, sie regelmäßig zu überprüfen.</p>
+      `,
+    },
+    it: {
+      title: 'Datenschutz',
+      content: `
+        <p><br><br>Wir legen großen Wert auf den Schutz Ihrer Daten. Diese Datenschutzerklärung erklärt, wie wir Ihre persönlichen Daten behandeln, wenn Sie unsere Website besuchen.<br><br></p>
+        
+        <h3>Datenerhebung</h3>
+        <p>Wir erheben keine persönlichen Daten von unseren Nutzern. Unsere Website verwendet keine Cookies oder andere Tracking-Technologien, die persönliche Informationen sammeln.<br><br></p>
+        
+        <h3>Plausible Analytics</h3>
+        <p>Wir verwenden Plausible Analytics, um Einblicke in den Website-Verkehr zu erhalten. Plausible ist ein datenschutzfreundliches Analysetool, das keine Cookies verwendet und keine persönlichen Daten sammelt. Alle Daten werden aggregiert und anonymisiert, sodass einzelne Nutzer nicht identifiziert werden können.<br><br></p>
+        
+        <h3>Datenweitergabe</h3>
+        <p>Wir geben keine persönlichen Daten an Dritte weiter, da wir keine persönlichen Daten erheben.<br><br></p>
+        
+        <h3>Ihre Rechte</h3>
+        <p>Da wir keine persönlichen Daten erheben, gibt es keine persönlichen Datenrechte auszuüben. Wenn Sie jedoch Fragen oder Bedenken zu unseren Datenschutzpraktiken haben, können Sie uns gerne kontaktieren.<br><br></p>
+        
+        <h3>Kontaktinformationen</h3>
+        <p>Wenn Sie Fragen zu dieser Datenschutzerklärung haben, können Sie uns kontaktieren unter:<br><br></p>
+        <p>Christoph Paterok<br>
+        Sudermanplatz 2<br>
+        50670 Köln<br>
+        Deutschland<br>
+        Telefon: +49 (0) 151 288 72425<br><br></p>
+        
+        <p>Diese Datenschutzerklärung kann von Zeit zu Zeit aktualisiert werden. Wir empfehlen Ihnen, sie regelmäßig zu überprüfen.</p>
+      `,
+    }
   };
