@@ -1,5 +1,6 @@
 ---
 import type { Provider } from '../lib/api';
+import { letterContent } from '../i18n/letter';
 
 export interface Props {
   provider: Provider;
@@ -7,7 +8,8 @@ export interface Props {
 }
 
 const { provider, lang } = Astro.props;
-const today = new Date().toLocaleDateString('de-DE');
+const t = letterContent[lang] || letterContent['en'];
+const today = new Date().toLocaleDateString(lang);
 ---
 
 <div class="letter-wrapper">
@@ -16,7 +18,7 @@ const today = new Date().toLocaleDateString('de-DE');
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
       </svg>
-      PDF herunterladen
+      {t['letter.download']}
     </button>
   </div>
 
@@ -24,9 +26,9 @@ const today = new Date().toLocaleDateString('de-DE');
     <div class="letter">
       <div class="letter-header">
         <div class="sender">
-          <input type="text" class="input-field" placeholder="Ihr Name" data-field="name">
-          <input type="text" class="input-field" placeholder="Ihre Straße" data-field="street">
-          <input type="text" class="input-field" placeholder="PLZ Ort" data-field="city">
+          <input type="text" class="input-field" placeholder={t['letter.placeholder.name']} data-field="name">
+          <input type="text" class="input-field" placeholder={t['letter.placeholder.street']} data-field="street">
+          <input type="text" class="input-field" placeholder={t['letter.placeholder.city']} data-field="city">
         </div>
 
         <div class="recipient">
@@ -41,30 +43,30 @@ const today = new Date().toLocaleDateString('de-DE');
       </div>
 
       <div class="contract-info">
-        <input type="text" class="input-field" placeholder="Vertragsnummer (optional)" data-field="contractNumber">
+        <input type="text" class="input-field" placeholder={t['letter.placeholder.contract']} data-field="contractNumber">
       </div>
 
       <div class="subject">
-        <strong>Kündigung meines Vertrags</strong>
+        <strong>{t['letter.subject']}</strong>
       </div>
 
       <div class="content">
-        <p>Sehr geehrte Damen und Herren,</p>
+        <p>{t['letter.greeting']}</p>
 
-        <p>hiermit kündige ich meinen Vertrag bei {provider.name} fristgerecht zum nächstmöglichen Termin.</p>
+        <p>{t['letter.body'].replace('{provider}', provider.name)}</p>
 
         <p class="contract-reference"></p>
 
-        <p>Bitte bestätigen Sie mir den Erhalt sowie das Kündigungsdatum schriftlich.</p>
+        <p>{t['letter.confirmation']}</p>
 
-        <p>Mit freundlichen Grüßen</p>
-        <input type="text" class="signature-field" placeholder="Unterschrift hier eingeben" data-field="signature">
+        <p>{t['letter.closing']}</p>
+        <input type="text" class="signature-field" placeholder={t['letter.placeholder.signature']} data-field="signature">
       </div>
 
       <div class="attachments">
-        <p><strong>Anlagen:</strong></p>
+        <p><strong>{t['letter.attachments']}</strong></p>
         <ul>
-          <li>Kopie des Personalausweises (optional)</li>
+          <li>{t['letter.attachment.id']}</li>
         </ul>
       </div>
     </div>
@@ -72,83 +74,16 @@ const today = new Date().toLocaleDateString('de-DE');
 </div>
 
 <script>
-  import html2pdf from 'html2pdf.js';
+  import { initializePdfGeneration } from '../scripts/generatePdf';
+  
+  // Get translations for the current language
+  const translations = {
+    'letter.contract.reference': document.currentScript?.getAttribute('data-contract-reference') || 'Contract number: {number}',
+    'letter.validation': document.currentScript?.getAttribute('data-validation') || 'Please fill in all required fields'
+  };
 
   document.addEventListener('DOMContentLoaded', () => {
-    const contractNumberInput = document.querySelector('[data-field="contractNumber"]') as HTMLInputElement;
-    const contractReference = document.querySelector('.contract-reference') as HTMLParagraphElement;
-    const generatePdfButton = document.getElementById('generatePdf');
-    const letterContent = document.getElementById('letterContent');
-
-    // Handle contract number input
-    contractNumberInput?.addEventListener('input', (e) => {
-      const value = (e.target as HTMLInputElement).value;
-      if (value) {
-        contractReference.textContent = `Vertragsnummer: ${value}`;
-      } else {
-        contractReference.textContent = '';
-      }
-    });
-
-    // Save form data in localStorage
-    const inputs = document.querySelectorAll('.input-field, .signature-field') as NodeListOf<HTMLInputElement>;
-    inputs.forEach(input => {
-      const field = input.dataset.field;
-      
-      // Load saved value
-      const savedValue = localStorage.getItem(`cancellation-${field}`);
-      if (savedValue) {
-        input.value = savedValue;
-        if (field === 'contractNumber') {
-          contractReference.textContent = `Vertragsnummer: ${savedValue}`;
-        }
-      }
-
-      // Save on input
-      input.addEventListener('input', (e) => {
-        const value = (e.target as HTMLInputElement).value;
-        localStorage.setItem(`cancellation-${field}`, value);
-      });
-    });
-
-    // PDF Generation
-    generatePdfButton?.addEventListener('click', () => {
-      // Check if required fields are filled
-      const name = document.querySelector('[data-field="name"]') as HTMLInputElement;
-      const street = document.querySelector('[data-field="street"]') as HTMLInputElement;
-      const city = document.querySelector('[data-field="city"]') as HTMLInputElement;
-      const signature = document.querySelector('[data-field="signature"]') as HTMLInputElement;
-
-      if (!name.value || !street.value || !city.value || !signature.value) {
-        alert('Bitte füllen Sie alle erforderlichen Felder aus (Name, Adresse und Unterschrift).');
-        return;
-      }
-
-      // Add PDF generation class
-      letterContent?.classList.add('generating-pdf');
-
-      // PDF options
-      const opt = {
-        margin: 20,
-        filename: 'kuendigung.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-          scale: 2,
-          letterRendering: true,
-          useCORS: true
-        },
-        jsPDF: { 
-          unit: 'mm', 
-          format: 'a4', 
-          orientation: 'portrait'
-        }
-      };
-
-      // Generate PDF
-      html2pdf().set(opt).from(letterContent).save().then(() => {
-        letterContent?.classList.remove('generating-pdf');
-      });
-    });
+    initializePdfGeneration(translations);
   });
 </script>
 
