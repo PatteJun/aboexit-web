@@ -2,6 +2,13 @@
 import { languages } from '../i18n/ui';
 
 const defaultLang = 'de';
----
 
-<meta http-equiv="refresh" content={`0;url=/${defaultLang}`} />
+export async function get({ request }) {
+  return {
+    status: 301,
+    headers: {
+      location: `/${defaultLang}/`
+    }
+  };
+}
+---
