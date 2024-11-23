@@ -1,0 +1,11 @@
+# Redirect root domain to the default language (/de/)
+/        /de/      301
+
+# Enforce trailing slashes for all language-specific URLs
+/de      /de/      301
+/en      /en/      301
+/fr      /fr/      301
+/it      /it/      301
+
+# Fallback for unsupported URLs
+/*       /404.html  404

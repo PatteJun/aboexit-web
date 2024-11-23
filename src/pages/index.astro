@@ -1,14 +1,8 @@
 ---
-import { languages } from '../i18n/ui';
-
-const defaultLang = 'de';
-
-export async function get({ request }) {
+export async function get() {
   return {
-    status: 301,
-    headers: {
-      location: `/${defaultLang}/`
-    }
+    status: 200,
+    body: '<h1>Welcome to AboExit</h1>',
   };
 }
 ---
