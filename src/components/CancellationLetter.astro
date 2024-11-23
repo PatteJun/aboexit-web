@@ -10,51 +10,184 @@ const { provider, lang } = Astro.props;
 const today = new Date().toLocaleDateString('de-DE');
 ---
 
-<div class="letter-container">
-  <div class="letter">
-    <div class="letter-header">
-      <div class="sender">
-        <div class="placeholder">[Ihr Name]</div>
-        <div class="placeholder">[Ihre Straße]</div>
-        <div class="placeholder">[PLZ Ort]</div>
+<div class="letter-wrapper">
+  <div class="letter-actions">
+    <button class="pdf-button" id="generatePdf">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+      </svg>
+      PDF herunterladen
+    </button>
+  </div>
+
+  <div class="letter-container" id="letterContent">
+    <div class="letter">
+      <div class="letter-header">
+        <div class="sender">
+          <input type="text" class="input-field" placeholder="Ihr Name" data-field="name">
+          <input type="text" class="input-field" placeholder="Ihre Straße" data-field="street">
+          <input type="text" class="input-field" placeholder="PLZ Ort" data-field="city">
+        </div>
+
+        <div class="recipient">
+          {provider.address.split('\n').map((line) => (
+            <div>{line}</div>
+          ))}
+        </div>
       </div>
 
-      <div class="recipient">
-        {provider.address.split('\n').map((line) => (
-          <div>{line}</div>
-        ))}
+      <div class="date">
+        {today}
       </div>
-    </div>
 
-    <div class="date">
-      {today}
-    </div>
+      <div class="contract-info">
+        <input type="text" class="input-field" placeholder="Vertragsnummer (optional)" data-field="contractNumber">
+      </div>
 
-    <div class="subject">
-      <strong>Kündigung meines Vertrags</strong>
-    </div>
+      <div class="subject">
+        <strong>Kündigung meines Vertrags</strong>
+      </div>
 
-    <div class="content">
-      <p>Sehr geehrte Damen und Herren,</p>
+      <div class="content">
+        <p>Sehr geehrte Damen und Herren,</p>
 
-      <p>hiermit kündige ich meinen Vertrag bei {provider.name} fristgerecht zum nächstmöglichen Termin.</p>
+        <p>hiermit kündige ich meinen Vertrag bei {provider.name} fristgerecht zum nächstmöglichen Termin.</p>
 
-      <p>Bitte bestätigen Sie mir den Erhalt sowie das Kündigungsdatum schriftlich.</p>
+        <p class="contract-reference"></p>
 
-      <p>Mit freundlichen Grüßen</p>
-      <div class="placeholder signature">[Ihre Unterschrift]</div>
-    </div>
+        <p>Bitte bestätigen Sie mir den Erhalt sowie das Kündigungsdatum schriftlich.</p>
 
-    <div class="attachments">
-      <p><strong>Anlagen:</strong></p>
-      <ul>
-        <li>Kopie des Personalausweises (optional)</li>
-      </ul>
+        <p>Mit freundlichen Grüßen</p>
+        <input type="text" class="signature-field" placeholder="Unterschrift hier eingeben" data-field="signature">
+      </div>
+
+      <div class="attachments">
+        <p><strong>Anlagen:</strong></p>
+        <ul>
+          <li>Kopie des Personalausweises (optional)</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
 
+<script>
+  import html2pdf from 'html2pdf.js';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const contractNumberInput = document.querySelector('[data-field="contractNumber"]') as HTMLInputElement;
+    const contractReference = document.querySelector('.contract-reference') as HTMLParagraphElement;
+    const generatePdfButton = document.getElementById('generatePdf');
+    const letterContent = document.getElementById('letterContent');
+
+    // Handle contract number input
+    contractNumberInput?.addEventListener('input', (e) => {
+      const value = (e.target as HTMLInputElement).value;
+      if (value) {
+        contractReference.textContent = `Vertragsnummer: ${value}`;
+      } else {
+        contractReference.textContent = '';
+      }
+    });
+
+    // Save form data in localStorage
+    const inputs = document.querySelectorAll('.input-field, .signature-field') as NodeListOf<HTMLInputElement>;
+    inputs.forEach(input => {
+      const field = input.dataset.field;
+      
+      // Load saved value
+      const savedValue = localStorage.getItem(`cancellation-${field}`);
+      if (savedValue) {
+        input.value = savedValue;
+        if (field === 'contractNumber') {
+          contractReference.textContent = `Vertragsnummer: ${savedValue}`;
+        }
+      }
+
+      // Save on input
+      input.addEventListener('input', (e) => {
+        const value = (e.target as HTMLInputElement).value;
+        localStorage.setItem(`cancellation-${field}`, value);
+      });
+    });
+
+    // PDF Generation
+    generatePdfButton?.addEventListener('click', () => {
+      // Check if required fields are filled
+      const name = document.querySelector('[data-field="name"]') as HTMLInputElement;
+      const street = document.querySelector('[data-field="street"]') as HTMLInputElement;
+      const city = document.querySelector('[data-field="city"]') as HTMLInputElement;
+      const signature = document.querySelector('[data-field="signature"]') as HTMLInputElement;
+
+      if (!name.value || !street.value || !city.value || !signature.value) {
+        alert('Bitte füllen Sie alle erforderlichen Felder aus (Name, Adresse und Unterschrift).');
+        return;
+      }
+
+      // Add PDF generation class
+      letterContent?.classList.add('generating-pdf');
+
+      // PDF options
+      const opt = {
+        margin: 20,
+        filename: 'kuendigung.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2,
+          letterRendering: true,
+          useCORS: true
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'portrait'
+        }
+      };
+
+      // Generate PDF
+      html2pdf().set(opt).from(letterContent).save().then(() => {
+        letterContent?.classList.remove('generating-pdf');
+      });
+    });
+  });
+</script>
+
 <style>
+  .letter-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .letter-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .pdf-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+  }
+
+  .pdf-button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+  }
+
+  .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
   .letter-container {
     max-width: 800px;
     margin: 2rem auto;
@@ -82,18 +215,50 @@ const today = new Date().toLocaleDateString('de-DE');
     font-style: normal;
   }
 
-  .placeholder {
-    color: var(--text-light);
-    background: var(--background-color);
+  .input-field {
+    width: 100%;
     padding: 0.5rem;
-    border-radius: 0.25rem;
     margin-bottom: 0.5rem;
-    border: 1px dashed var(--border-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    color: var(--text-color);
+    background: var(--background-color);
+    transition: all 0.2s ease;
   }
 
-  .signature {
+  .input-field:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: var(--white);
+  }
+
+  .contract-info {
+    margin-bottom: 2rem;
+  }
+
+  .signature-field {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.5rem;
     margin-top: 2rem;
-    width: 200px;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    font-family: 'Homemade Apple', cursive;
+    font-size: 1.25rem;
+    color: var(--text-color);
+    background: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .signature-field:focus {
+    outline: none;
+    border-bottom-color: var(--primary-color);
+  }
+
+  .signature-field::placeholder {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
   }
 
   .date {
@@ -137,4 +302,36 @@ const today = new Date().toLocaleDateString('de-DE');
     width: 1rem;
     margin-left: -1rem;
   }
+
+  /* PDF Generation Styles */
+  .generating-pdf {
+    background: white !important;
+  }
+
+  .generating-pdf .input-field,
+  .generating-pdf .signature-field {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  @media print {
+    .letter-actions {
+      display: none;
+    }
+
+    .letter-container {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+    }
+
+    .input-field, .signature-field {
+      border: none;
+      background: transparent;
+      padding: 0;
+    }
+  }
 </style>
+
+<link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet">
