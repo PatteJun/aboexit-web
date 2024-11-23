@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/netlify": "^5.5.4",
+    "@astrojs/sitemap": "^3.2.1",
     "astro": "^4.15.3",
     "node-fetch": "^3.3.2"
   }
