@@ -31,7 +31,7 @@ const groupedProviders = providers.reduce((acc, provider) => {
     <ul class="provider-list">
       {providers.map(provider => (
         <li>
-          <a href={`/${lang}/kuendigung/${categorySlug}/${provider.slug}`} class="provider-link">
+          <a href={`/${lang}/kuendigung/${categorySlug}/${provider.slug}/`} class="provider-link">
             <span class="name">{provider.name}</span>
             <span class="arrow">→</span>
           </a>
