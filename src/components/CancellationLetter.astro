@@ -83,7 +83,14 @@ const today = new Date().toLocaleDateString(lang);
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    initializePdfGeneration(translations);
+    const pdfButton = document.getElementById('generatePdf');
+    pdfButton.addEventListener('click', () => {
+      if (window.plausible) {
+        window.plausible('generate-pdf');
+      }
+    });
+
+      initializePdfGeneration(translations);
   });
 </script>
 
