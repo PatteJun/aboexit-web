@@ -66,12 +66,12 @@ const t = ui[lang] || ui['en'];
             </div>
           </div>
 
-          <button class="cta-button">
+          <a href="#cancellation-form" class="cta-button">
             {t['cancel.cta']}
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="arrow">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
             </svg>
-          </button>
+          </a>
         </div>
 
         <div class="letter-preview">
@@ -103,7 +103,7 @@ const t = ui[lang] || ui['en'];
 
   <div class="container">
     <article class="content">
-      <section class="letter-section">
+      <section id="cancellation-form" class="letter-section">
         <h2>{t['cancel.template.title']}</h2>
         <CancellationLetter provider={provider} lang={lang} />
       </section>
@@ -246,6 +246,7 @@ const t = ui[lang] || ui['en'];
     padding: 1rem 2rem;
     border-radius: 0.5rem;
     font-weight: 600;
+    text-decoration: none;
     transition: all 0.2s ease;
   }
 
@@ -314,6 +315,7 @@ const t = ui[lang] || ui['en'];
 
   .letter-section {
     margin: 3rem 0;
+    scroll-margin-top: 2rem;
   }
 
   .letter-section h2 {
