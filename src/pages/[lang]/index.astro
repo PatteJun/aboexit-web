@@ -41,39 +41,41 @@ console.log(`[Page] Rendering page for language: ${lang} with ${providers.length
   description={t['site.description']}
   lang={lang}
 >
-  <div class="container">
-    <section class="hero">
-      <h1>{t['hero.title']}</h1>
-      <p>{t['hero.subtitle']}</p>
-    </section>
+  <div class="main-with-padding">
+    <div class="container">
+      <section class="hero">
+        <h1>{t['hero.title']}</h1>
+        <p>{t['hero.subtitle']}</p>
+      </section>
 
-    <section class="providers">
-      <h2>{t['providers.title']}</h2>
-      <div class="provider-grid">
-        <CategoryCard providers={providers} lang={lang} />
-      </div>
-    </section>
+      <section class="providers">
+        <h2>{t['providers.title']}</h2>
+        <div class="provider-grid">
+          <CategoryCard providers={providers} lang={lang} />
+        </div>
+      </section>
 
-    <section class="features">
-      <h2>{t['how.title']}</h2>
-      <div class="features-grid">
-        <div class="feature">
-          <div class="feature-icon">1</div>
-          <h3>{t['step.1.title']}</h3>
-          <p>{t['step.1.description']}</p>
+      <section class="features">
+        <h2>{t['how.title']}</h2>
+        <div class="features-grid">
+          <div class="feature">
+            <div class="feature-icon">1</div>
+            <h3>{t['step.1.title']}</h3>
+            <p>{t['step.1.description']}</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">2</div>
+            <h3>{t['step.2.title']}</h3>
+            <p>{t['step.2.description']}</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">3</div>
+            <h3>{t['step.3.title']}</h3>
+            <p>{t['step.3.description']}</p>
+          </div>
         </div>
-        <div class="feature">
-          <div class="feature-icon">2</div>
-          <h3>{t['step.2.title']}</h3>
-          <p>{t['step.2.description']}</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">3</div>
-          <h3>{t['step.3.title']}</h3>
-          <p>{t['step.3.description']}</p>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 </Layout>
 

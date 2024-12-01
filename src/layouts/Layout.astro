@@ -61,7 +61,7 @@ const t = ui[lang];
       </nav>
     </header>
 
-    <main>
+    <main class="main">
       <slot />
     </main>
 
@@ -158,8 +158,12 @@ const t = ui[lang];
     font-size: 1.25rem;
   }
 
-  main {
+  .main {
     flex: 1;
+  }
+
+  /* Add a utility class for pages that need padding */
+  .main-with-padding {
     padding: 3rem 0;
   }
 
