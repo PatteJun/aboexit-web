@@ -22,17 +22,15 @@ export function initializePdfGeneration(translations: Translations) {
   });
 
   // Save form data in localStorage
-  const inputs = document.querySelectorAll('.input-field, .signature-field') as NodeListOf<HTMLInputElement>;
+  const inputs = document.querySelectorAll('.input-field:not([data-field="contractNumber"]), .signature-field') as NodeListOf<HTMLInputElement>;
   inputs.forEach(input => {
     const field = input.dataset.field;
+    if (!field) return;
     
     // Load saved value
     const savedValue = localStorage.getItem(`cancellation-${field}`);
     if (savedValue) {
       input.value = savedValue;
-      if (field === 'contractNumber') {
-        contractReference.textContent = translations['letter.contract.reference'].replace('{number}', savedValue);
-      }
     }
 
     // Save on input
