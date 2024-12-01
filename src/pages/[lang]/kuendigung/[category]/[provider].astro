@@ -1,6 +1,7 @@
 ---
 import Layout from '../../../../layouts/Layout.astro';
 import CancellationLetter from '../../../../components/CancellationLetter.astro';
+import PremiumService from '../../../../components/PremiumService.astro';
 import { getProviderBySlug, getAllProviders } from '../../../../lib/api';
 import { languages, ui } from '../../../../i18n/ui';
 
@@ -66,12 +67,12 @@ const t = ui[lang] || ui['en'];
             </div>
           </div>
 
-          <a href="#cancellation-form" class="cta-button">
+          <button class="cta-button">
             {t['cancel.cta']}
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="arrow">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
             </svg>
-          </a>
+          </button>
         </div>
 
         <div class="letter-preview">
@@ -102,48 +103,12 @@ const t = ui[lang] || ui['en'];
   </div>
 
   <div class="container">
+    <PremiumService t={t} lang={lang} />
+    
     <article class="content">
       <section id="cancellation-form" class="letter-section">
         <h2>{t['cancel.template.title']}</h2>
         <CancellationLetter provider={provider} lang={lang} />
-      </section>
-
-      <section class="premium-service">
-        <div class="premium-card">
-          <div class="premium-content">
-            <h2>{t['premium.title']}</h2>
-            <p class="premium-description">{t['premium.description']}</p>
-            <ul class="premium-benefits">
-              <li>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                </svg>
-                {t['premium.benefits.1']}
-              </li>
-              <li>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {t['premium.benefits.2']}
-              </li>
-              <li>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {t['premium.benefits.3']}
-              </li>
-            </ul>
-          </div>
-          <div class="premium-action">
-            <span class="premium-price">{t['premium.price']}</span>
-            <button class="premium-button" id="premiumButton">
-              {t['premium.cta']}
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-              </svg>
-            </button>
-          </div>
-        </div>
       </section>
 
       <section class="instructions">
@@ -200,27 +165,6 @@ const t = ui[lang] || ui['en'];
   document.addEventListener('DOMContentLoaded', () => {
     const lang = document.documentElement.lang;
     initializeDynamicDates(lang);
-
-    const premiumButton = document.getElementById('premiumButton');
-    const dialog = document.getElementById('premiumDialog') as HTMLDialogElement;
-    const closeButton = document.getElementById('closeDialog');
-
-    premiumButton?.addEventListener('click', () => {
-      if (window.plausible) {
-        window.plausible('premium-service-click');
-      }
-      dialog?.showModal();
-    });
-
-    closeButton?.addEventListener('click', () => {
-      dialog?.close();
-    });
-
-    dialog?.addEventListener('click', (e) => {
-      if (e.target === dialog) {
-        dialog.close();
-      }
-    });
   });
 </script>
 
@@ -229,12 +173,6 @@ const t = ui[lang] || ui['en'];
     background: linear-gradient(to bottom, #f0f9ff, #e0f2fe);
     padding: 4rem 0;
     margin-bottom: 3rem;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
   }
 
   .breadcrumb {
@@ -305,8 +243,9 @@ const t = ui[lang] || ui['en'];
     padding: 1rem 2rem;
     border-radius: 0.5rem;
     font-weight: 600;
-    text-decoration: none;
     transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
   }
 
   .cta-button:hover {
@@ -374,7 +313,6 @@ const t = ui[lang] || ui['en'];
 
   .letter-section {
     margin: 3rem 0;
-    scroll-margin-top: 2rem;
   }
 
   .letter-section h2 {
@@ -468,146 +406,6 @@ const t = ui[lang] || ui['en'];
 
     .letter-preview {
       transform: none;
-    }
-  }
-  
-  .premium-service {
-    margin: 4rem 0;
-  }
-
-  .premium-card {
-    background: linear-gradient(to right, #2563eb, #1d4ed8);
-    border-radius: 1rem;
-    padding: 2rem;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  .premium-content {
-    flex: 1;
-  }
-
-  .premium-content h2 {
-    color: white;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .premium-description {
-    color: #e0f2fe;
-    margin-bottom: 1.5rem;
-  }
-
-  .premium-benefits {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .premium-benefits li {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: #e0f2fe;
-  }
-
-  .premium-benefits svg {
-    width: 1.25rem;
-    height: 1.25rem;
-    flex-shrink: 0;
-  }
-
-  .premium-action {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .premium-price {
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-
-  .premium-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: white;
-    color: var(--primary-color);
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-  }
-
-  .premium-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  }
-
-  .premium-button svg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-
-  .premium-dialog {
-    border: none;
-    border-radius: 1rem;
-    padding: 0;
-    background: white;
-    max-width: 400px;
-    width: 90%;
-  }
-
-  .premium-dialog::backdrop {
-    background: rgba(0, 0, 0, 0.5);
-  }
-
-  .dialog-content {
-    padding: 2rem;
-    text-align: center;
-  }
-
-  .dialog-content h3 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-  }
-
-  .dialog-content p {
-    margin-bottom: 1.5rem;
-  }
-
-  .dialog-button {
-    background: var(--primary-color);
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-  }
-
-  .dialog-button:hover {
-    background: var(--primary-dark);
-  }
-
-  @media (max-width: 768px) {
-    .premium-card {
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .premium-benefits li {
-      justify-content: center;
-    }
-
-    .premium-action {
-      width: 100%;
     }
   }
 </style>
