@@ -9,7 +9,6 @@ export interface Props {
 
 const { provider, lang } = Astro.props;
 const t = letterContent[lang] || letterContent['en'];
-const today = new Date().toLocaleDateString(lang);
 ---
 
 <div class="letter-wrapper">
@@ -38,9 +37,7 @@ const today = new Date().toLocaleDateString(lang);
         </div>
       </div>
 
-      <div class="date">
-        {today}
-      </div>
+      <div class="date" data-dynamic-date></div>
 
       <div class="contract-info">
         <input type="text" class="input-field" placeholder={t['letter.placeholder.contract']} data-field="contractNumber">
@@ -75,6 +72,7 @@ const today = new Date().toLocaleDateString(lang);
 
 <script>
   import { initializePdfGeneration } from '../scripts/generatePdf';
+  import { initializeDynamicDates } from '../utils/dateFormatter';
   
   // Get translations for the current language
   const translations = {
@@ -84,13 +82,18 @@ const today = new Date().toLocaleDateString(lang);
 
   document.addEventListener('DOMContentLoaded', () => {
     const pdfButton = document.getElementById('generatePdf');
-    pdfButton.addEventListener('click', () => {
+    pdfButton?.addEventListener('click', () => {
       if (window.plausible) {
         window.plausible('generate-pdf');
       }
     });
 
-      initializePdfGeneration(translations);
+    // Initialize PDF generation
+    initializePdfGeneration(translations);
+
+    // Initialize dynamic dates
+    const lang = document.documentElement.lang;
+    initializeDynamicDates(lang);
   });
 </script>
 

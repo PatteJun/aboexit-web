@@ -89,7 +89,7 @@ const t = ui[lang] || ui['en'];
               </div>
             </div>
             <div class="letter-body">
-              <div class="date">{new Date().toLocaleDateString(lang)}</div>
+              <div class="date" data-dynamic-date></div>
               <div class="subject">Kündigung meines Vertrags</div>
               <p>Sehr geehrte Damen und Herren,</p>
               <p>hiermit kündige ich meinen Vertrag bei {provider.name} fristgerecht zum nächstmöglichen Termin...</p>
@@ -155,6 +155,15 @@ const t = ui[lang] || ui['en'];
     </article>
   </div>
 </Layout>
+
+<script>
+  import { initializeDynamicDates } from '../../../../utils/dateFormatter';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const lang = document.documentElement.lang;
+    initializeDynamicDates(lang);
+  });
+</script>
 
 <style>
   .hero-wrapper {
